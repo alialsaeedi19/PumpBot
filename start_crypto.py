@@ -26,22 +26,27 @@ from stock_data.TrackedStockDatabase import TrackedStockDatabase
 from thread_runner.ThreadRunner import ThreadRunner
 from trading.BasicInvestmentStrategy import BasicInvestmentStrategy
 from trading.ProfitPumpTrader import ProfitPumpTrader
-from util.Constants import MINUTES_OF_DATA_TO_LOOK_AT_FOR_MODEL, \
-    SAMPLES_PER_MINUTE, SECONDS_BETWEEN_SAMPLES
+from util.Constants import (
+    MINUTES_OF_DATA_TO_LOOK_AT_FOR_MODEL,
+    SAMPLES_PER_MINUTE,
+    SECONDS_BETWEEN_SAMPLES,
+)
 from wallet.BinanceWallet import BinanceWallet
 
 
 def getProperties(propertiesFile: str) -> Dict:
     try:
-        with open(propertiesFile, mode='r') as file:
+        with open(propertiesFile, mode="r") as file:
             data = json.load(file)
             return data
     except:
         print(
-            "You are missing " + propertiesFile + ". Please ask Robert" \
-                                                  "(robert.ciborowski"
-                                                  "@mail.utoronto.ca) for "
-                                                  "help.")
+            "You are missing " + propertiesFile + ". Please ask Robert"
+            "(robert.ciborowski"
+            "@mail.utoronto.ca) for "
+            "help."
+        )
+
 
 if __name__ == "__main__":
     # tickers = ["BNBBTC", "BQXBTC", "FUNBTC", "GASBTC", "HSRBTC",
@@ -54,30 +59,36 @@ if __name__ == "__main__":
 
     # For logging our outputs to a file
     import sys
+
     sys.stdout = Logger("crypto_output.txt")
 
     # This sets up data obtaining.
-    dataObtainer = CurrentBinanceDataObtainer(MINUTES_OF_DATA_TO_LOOK_AT_FOR_MODEL * SAMPLES_PER_MINUTE, SECONDS_BETWEEN_SAMPLES)
+    dataObtainer = CurrentBinanceDataObtainer(
+        MINUTES_OF_DATA_TO_LOOK_AT_FOR_MODEL * SAMPLES_PER_MINUTE,
+        SECONDS_BETWEEN_SAMPLES,
+    )
     listings_obtainer = SpecifiedListingObtainer(tickers)
     filter = PassThroughStockFilter(dataObtainer)
-    filter.addListings(listings_obtainer) \
-        .getDataForFiltering() \
-        .filter()
+    filter.addListings(listings_obtainer).getDataForFiltering().filter()
 
     # This sets up the price & volume database.
     database = TrackedStockDatabase.getInstance()
-    database.useObtainer(dataObtainer) \
-        .trackStocksInFilter(filter) \
-        .setSecondsBetweenStockUpdates(SECONDS_BETWEEN_SAMPLES)
+    database.useObtainer(dataObtainer).trackStocksInFilter(
+        filter
+    ).setSecondsBetweenStockUpdates(SECONDS_BETWEEN_SAMPLES)
 
     # This sets up bots that output messages.
     # bot = ExampleBot()
     # EventDispatcher.getInstance().addListener(bot, "PumpAndDump")
     #
-    discordObtainer = CurrentBinanceDataObtainer(MINUTES_OF_DATA_TO_LOOK_AT_FOR_MODEL * SAMPLES_PER_MINUTE, SECONDS_BETWEEN_SAMPLES)
+    discordObtainer = CurrentBinanceDataObtainer(
+        MINUTES_OF_DATA_TO_LOOK_AT_FOR_MODEL * SAMPLES_PER_MINUTE,
+        SECONDS_BETWEEN_SAMPLES,
+    )
     discordObtainer.trackStocks(tickers)
-    bot = DiscordBot(discordObtainer, "bot_properties.json",
-                     "bot_secret_properties.json", "8")
+    bot = DiscordBot(
+        discordObtainer, "bot_properties.json", "bot_secret_properties.json", "8"
+    )
     bot.runOnSeperateThread()
     EventDispatcher.getInstance().addListener(bot, "Investment")
 
@@ -107,10 +118,13 @@ if __name__ == "__main__":
         acceptableLossRatio=properties["Acceptable Loss Ratio"],
         acceptableDipFromStartRatio=properties["Acceptable Dip From Start Ratio"],
         minutesAfterSellIfPump=properties["Minutes After Pump Sell"],
-        minutesAfterSellIfPriceInactivity=properties["Minutes After Price-Inactive Sell"],
+        minutesAfterSellIfPriceInactivity=properties[
+            "Minutes After Price-Inactive Sell"
+        ],
         minutesAfterSellIfLoss=properties["Minutes After Loss Sell"],
         maxTimeToHoldStock=properties["Max Time To Hold Stock"],
-        fastForwardAmount=1)
+        fastForwardAmount=1,
+    )
     EventDispatcher.getInstance().addListener(trader, "PumpAndDump")
 
     threadRunner = ThreadRunner(endTime=datetime.now() + timedelta(days=7))
