@@ -3,25 +3,16 @@
 # Date: 14/04/2020
 # Description: Starts the program.
 import json
-import time
+from datetime import datetime, timedelta
 from typing import Dict
 
 from discord_bot.DiscordBot import DiscordBot
 from events.EventDispatcher import EventDispatcher
-from example_bot.ExampleBot import ExampleBot
-from filter import StockFilterByPrice
 from filter.PassThroughStockFilter import PassThroughStockFilter
-from listing_obtainers.BinanceListingObtainer import BinanceListingObtainer
-from listing_obtainers.NASDAQListingObtainer import NASDAQListingObtainer
 from listing_obtainers.SpecifiedListingObtainer import SpecifiedListingObtainer
 from logger.Logger import Logger
 from models.CryptoPumpAndDumpDetector import CryptoPumpAndDumpDetector
-from models.DummyPumpAndDumpDetector import DummyPumpAndDumpDetector
-from datetime import datetime, timedelta
-
-from stock_data import CurrentStockDataObtainer
 from stock_data.CurrentBinanceDataObtainer import CurrentBinanceDataObtainer
-from stock_data.HistoricStockDataObtainer import HistoricStockDataObtainer
 from stock_data.TrackedStockDatabase import TrackedStockDatabase
 from thread_runner.ThreadRunner import ThreadRunner
 from trading.BasicInvestmentStrategy import BasicInvestmentStrategy

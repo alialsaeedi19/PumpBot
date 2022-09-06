@@ -7,11 +7,12 @@ from typing import Dict
 
 import binance
 import requests
+from binance.client import Client
+from binance.exceptions import BinanceAPIException
 
 from util.Constants import BINANCE_DATA_FETCH_ATTEMPT_AMOUNT
 from wallet.Wallet import Wallet
-from binance.client import Client
-from binance.exceptions import BinanceAPIException, BinanceWithdrawException
+
 
 class BinanceWallet(Wallet):
     client: Client
