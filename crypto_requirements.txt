@@ -1,0 +1,11 @@
+discord
+pandas
+yfinance
+numpy
+tensorflow
+tensorflow_model_optimization
+matplotlib
+requests
+binance
+pytz
+python-binance
