@@ -9,3 +9,4 @@ requests
 binance
 pytz
 python-binance
+pydotplus
