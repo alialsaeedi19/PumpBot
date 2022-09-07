@@ -3,14 +3,9 @@ from util.Constants import SAMPLES_OF_DATA_TO_LOOK_AT
 
 def train():
     import numpy as np
-    import pandas as pd
-    import tensorflow as tf
-    from tensorflow.keras import layers
-    import numpy as np
 
     from models.CryptoPumpAndDumpDetector import CryptoPumpAndDumpDetector
     from models.Hyperparameters import Hyperparameters
-    from models.LayerParameter import LayerParameter
 
     print("Loading dataset...")
     # pumps_df = pd.read_csv("../data_set/final-dataset-pumps.csv")

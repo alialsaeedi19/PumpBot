@@ -77,11 +77,11 @@ if __name__ == "__main__":
         SECONDS_BETWEEN_SAMPLES,
     )
     discordObtainer.trackStocks(tickers)
-    bot = DiscordBot(
-        discordObtainer, "bot_properties.json", "bot_secret_properties.json", "8"
-    )
-    bot.runOnSeperateThread()
-    EventDispatcher.getInstance().addListener(bot, "Investment")
+    # bot = DiscordBot(
+    #     discordObtainer, "bot_properties.json", "bot_secret_properties.json", "8"
+    # )
+    # bot.runOnSeperateThread()
+    # EventDispatcher.getInstance().addListener(bot, "Investment")
 
     # This sets up the model.
     model = CryptoPumpAndDumpDetector()
@@ -93,9 +93,9 @@ if __name__ == "__main__":
     EventDispatcher.getInstance().addListener(model, "ListingPriceUpdated")
 
     # This sets up the wallet.
-    wallet = BinanceWallet(baseCurrency="BTC")
+    wallet = BinanceWallet(baseCurrency="BUSD")
     wallet.useBinanceKeysFromFile("binance_properties.json")
-    print(wallet.getBalance("OAXBTC"))
+    print(wallet.getBalance("BUSD"))
     print("Current balance: " + str(wallet.getBalance()))
     # wallet.purchase("OAXBTC", 0.0, 100, test=True)
     # wallet.sell("OAXBTC", 0.0, 100, test=True)
